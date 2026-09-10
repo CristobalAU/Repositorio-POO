@@ -20,9 +20,15 @@ public class VentanaLogin {
 
     private final JButton btnIngresar = new JButton("Ingresar");
 
+    private final JButton btnRegistrar =
+            new JButton("Registrarse");
+
     public VentanaLogin() {
-        USUARIOS.add(new Usuario("admin", "1234", "Administrador"));
-        USUARIOS.add(new Usuario("jugador", "1234", "Jugador"));
+
+        if (USUARIOS.isEmpty()) {
+            USUARIOS.add(new Usuario("admin", "1234", "Administrador"));
+            USUARIOS.add(new Usuario("jugador", "1234", "Jugador"));
+        }
 
         frame.setSize(400,250);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -35,14 +41,17 @@ public class VentanaLogin {
         txtClave.setBounds(150, 80, 100, 25);
 
         btnIngresar.setBounds(150, 130, 100, 30);
+        btnRegistrar.setBounds(150, 170, 100, 30);
 
         frame.add(lblUsuario);
         frame.add(txtUsuario);
         frame.add(lblClave);
         frame.add(txtClave);
         frame.add(btnIngresar);
+        frame.add(btnRegistrar);
 
         btnIngresar.addActionListener(e -> login());
+        btnRegistrar.addActionListener(e -> abrirRegistro());
     }
 
     public void mostrarVentana() {
@@ -88,6 +97,14 @@ public class VentanaLogin {
         }
 
         return "";
+    }
+
+    private void abrirRegistro() {
+
+        frame.dispose();
+
+        VentanaRegistro registro = new VentanaRegistro();
+        registro.mostrarVentana();
     }
 
 }

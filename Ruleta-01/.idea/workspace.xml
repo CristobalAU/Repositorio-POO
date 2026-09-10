@@ -4,9 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fcd1afea-b488-4c8a-8466-7d64170451f4" name="Changes" comment="Implementación Ronda Ruleta">
+    <list default="true" id="fcd1afea-b488-4c8a-8466-7d64170451f4" name="Changes" comment="Implementacion mostrar estadisticas">
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/VentanaRegistro.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/VentanaRuleta.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/VentanaRuleta.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/VentanaLogin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/VentanaLogin.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -118,6 +119,7 @@
     <MESSAGE value="Agregar clase Usuario" />
     <MESSAGE value="Implementación Login" />
     <MESSAGE value="Implementación Ronda Ruleta" />
-    <option name="LAST_COMMIT_MESSAGE" value="Implementación Ronda Ruleta" />
+    <MESSAGE value="Implementacion mostrar estadisticas" />
+    <option name="LAST_COMMIT_MESSAGE" value="Implementacion mostrar estadisticas" />
   </component>
 </project>
