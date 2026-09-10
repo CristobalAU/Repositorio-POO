@@ -4,13 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fcd1afea-b488-4c8a-8466-7d64170451f4" name="Changes" comment="Agregar clase Usuario">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/Ruleta.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/VentanaLogin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="fcd1afea-b488-4c8a-8466-7d64170451f4" name="Changes" comment="Implementación Login">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Usuario.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Usuario.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/VentanaRuleta.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/VentanaRuleta.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -62,6 +58,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "codeWithMe.voiceChat.enabledByDefault": "false",
     "git-widget-placeholder": "feature/iteracion-02",
     "kotlin-language-version-configured": "true",
@@ -119,6 +116,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Commit Inicial" />
     <MESSAGE value="Agregar clase Usuario" />
-    <option name="LAST_COMMIT_MESSAGE" value="Agregar clase Usuario" />
+    <MESSAGE value="Implementación Login" />
+    <option name="LAST_COMMIT_MESSAGE" value="Implementación Login" />
   </component>
 </project>
