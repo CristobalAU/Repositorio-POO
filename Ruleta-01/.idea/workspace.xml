@@ -4,9 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fcd1afea-b488-4c8a-8466-7d64170451f4" name="Changes" comment="Implementacion registro usuarios">
+    <list default="true" id="fcd1afea-b488-4c8a-8466-7d64170451f4" name="Changes" comment="Calculo Estadisticas">
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/RuletaTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Ruleta.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Ruleta.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,6 +55,7 @@
     "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "Application.Main.executor": "Run",
     "Application.Ruleta.executor": "Run",
+    "JUnit.RuletaTest.executor": "Run",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
@@ -120,6 +122,7 @@
     <MESSAGE value="Implementación Ronda Ruleta" />
     <MESSAGE value="Implementacion mostrar estadisticas" />
     <MESSAGE value="Implementacion registro usuarios" />
-    <option name="LAST_COMMIT_MESSAGE" value="Implementacion registro usuarios" />
+    <MESSAGE value="Calculo Estadisticas" />
+    <option name="LAST_COMMIT_MESSAGE" value="Calculo Estadisticas" />
   </component>
 </project>
