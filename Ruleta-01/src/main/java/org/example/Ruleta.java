@@ -16,10 +16,6 @@ public class Ruleta {
             19, 21, 23, 25, 27, 30, 32, 34, 36
     };
 
-    public static void main(String[] args) {
-        menu();
-    }
-
     public static void menu() {
         Scanner in = new Scanner(System.in);
         int opcion;
@@ -280,44 +276,56 @@ public class Ruleta {
     }
 
 
-    public static void mostrarEstadisticas() {
-
+    public static int calcularTotalApostado() {
         int totalApostado = 0;
 
-        int totalAciertos = 0;
+        for (int i = 0; i < historialSize; i++) {
+            totalApostado += historialApuestas[i];
 
-        int gananciaNeta = 0;
+        }
 
+        return totalApostado;
+    }
+
+    public static int calcularTotalAciertos() {
+        int totalAciertos =0;
 
         for (int i = 0; i < historialSize; i++) {
-
-            totalApostado =
-                    totalApostado + historialApuestas[i];
-
-
             if (historialAciertos[i]) {
-
                 totalAciertos++;
-
-                gananciaNeta =
-                        gananciaNeta + historialApuestas[i];
-
-            } else {
-
-                gananciaNeta =
-                        gananciaNeta - historialApuestas[i];
             }
         }
 
+        return totalAciertos;
+    }
 
-        double porcentajeAciertos = 0;
+    public static int calcularGananciaNeta() {
+        int gananciaNeta = 0;
 
-
-        if (historialSize > 0) {
-
-            porcentajeAciertos =
-                    (totalAciertos * 100.0) / historialSize;
+        for (int i = 0; i < historialSize; i++) {
+            if (historialAciertos[i]) {
+                gananciaNeta += historialApuestas[i];
+            } else {
+                gananciaNeta -= historialApuestas[i];
+            }
         }
+
+        return gananciaNeta;
+    }
+
+    public static double calcularPorcentajeAciertos() {
+        if (historialSize == 0) {
+            return 0;
+        }
+
+        return (calcularTotalAciertos() * 100.0) / historialSize;
+    }
+    public static void mostrarEstadisticas() {
+
+        int totalApostado = calcularTotalApostado();
+        int totalAciertos = calcularTotalAciertos();
+        int gananciaNeta = calcularGananciaNeta();
+        double porcentajeAciertos = calcularPorcentajeAciertos();
 
 
         System.out.println();

@@ -175,28 +175,10 @@ public class VentanaRuleta {
 
     private void mostrarEstadisticas() {
 
-        int totalApostado = 0;
-        int totalAciertos = 0;
-        int gananciaNeta = 0;
-
-        for (int i = 0; i < Ruleta.historialSize; i++) {
-
-            totalApostado += Ruleta.historialApuestas[i];
-
-            if (Ruleta.historialAciertos[i]) {
-                totalAciertos++;
-                gananciaNeta += Ruleta.historialApuestas[i];
-            } else {
-                gananciaNeta -= Ruleta.historialApuestas[i];
-            }
-        }
-
-        double porcentajeAciertos = 0;
-
-        if (Ruleta.historialSize > 0) {
-            porcentajeAciertos =
-                    (totalAciertos * 100.0) / Ruleta.historialSize;
-        }
+        int totalApostado = Ruleta.calcularTotalApostado();
+        int totalAciertos = Ruleta.calcularTotalAciertos();
+        int gananciaNeta = Ruleta.calcularGananciaNeta();
+        double porcentajeAciertos = Ruleta.calcularPorcentajeAciertos();
 
         String mensaje =
                 "Rondas jugadas: " + Ruleta.historialSize +
