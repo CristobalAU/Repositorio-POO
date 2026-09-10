@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fcd1afea-b488-4c8a-8466-7d64170451f4" name="Changes" comment="Implementación Login">
+    <list default="true" id="fcd1afea-b488-4c8a-8466-7d64170451f4" name="Changes" comment="Implementación Ronda Ruleta">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/VentanaRuleta.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/VentanaRuleta.java" afterDir="false" />
     </list>
@@ -117,6 +117,7 @@
     <MESSAGE value="Commit Inicial" />
     <MESSAGE value="Agregar clase Usuario" />
     <MESSAGE value="Implementación Login" />
-    <option name="LAST_COMMIT_MESSAGE" value="Implementación Login" />
+    <MESSAGE value="Implementación Ronda Ruleta" />
+    <option name="LAST_COMMIT_MESSAGE" value="Implementación Ronda Ruleta" />
   </component>
 </project>

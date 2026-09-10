@@ -33,7 +33,7 @@ public class VentanaRuleta {
         frame.add(btnEstadisticas);
 
         btnJugar.addActionListener(e -> iniciarRonda());
-        // btnEstadisticas.addActionListener(e -> mostrarEstadisticas());
+        btnEstadisticas.addActionListener(e -> mostrarEstadisticas());
 
     }
 
@@ -170,7 +170,50 @@ public class VentanaRuleta {
                 frame,
                 mensaje
         );
+
+    }
+
+    private void mostrarEstadisticas() {
+
+        int totalApostado = 0;
+        int totalAciertos = 0;
+        int gananciaNeta = 0;
+
+        for (int i = 0; i < Ruleta.historialSize; i++) {
+
+            totalApostado += Ruleta.historialApuestas[i];
+
+            if (Ruleta.historialAciertos[i]) {
+                totalAciertos++;
+                gananciaNeta += Ruleta.historialApuestas[i];
+            } else {
+                gananciaNeta -= Ruleta.historialApuestas[i];
+            }
         }
+
+        double porcentajeAciertos = 0;
+
+        if (Ruleta.historialSize > 0) {
+            porcentajeAciertos =
+                    (totalAciertos * 100.0) / Ruleta.historialSize;
+        }
+
+        String mensaje =
+                "Rondas jugadas: " + Ruleta.historialSize +
+                "\nMonto total apostado: $" + totalApostado +
+                "\nTotal de aciertos: " + totalAciertos +
+                "\nPorcentaje de aciertos: " +
+                String.format("%.2f", porcentajeAciertos) + "%" +
+                "\nGanancia/perdida neta: $" + gananciaNeta;
+
+        JOptionPane.showMessageDialog(
+                frame,
+                mensaje,
+                "Estadisticas",
+                JOptionPane.INFORMATION_MESSAGE
+        );
+    }
+
 
 
 }
