@@ -74,8 +74,8 @@ public class VentanaLogin {
 
             frame.dispose();
 
-            VentanaRuleta ventanaRuleta = new VentanaRuleta(nombre);
-            ventanaRuleta.mostrarVentana();
+            VentanaMenu ventanaMenu = new VentanaMenu(nombre);
+            ventanaMenu.mostrarVentana();
 
 
         } else {

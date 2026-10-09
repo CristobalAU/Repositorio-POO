@@ -181,7 +181,7 @@ public class VentanaRuleta {
         double porcentajeAciertos = Ruleta.calcularPorcentajeAciertos();
 
         String mensaje =
-                "Rondas jugadas: " + Ruleta.historialSize +
+                "Rondas jugadas: " + Ruleta.getHistorialSize() +
                 "\nMonto total apostado: $" + totalApostado +
                 "\nTotal de aciertos: " + totalAciertos +
                 "\nPorcentaje de aciertos: " +
