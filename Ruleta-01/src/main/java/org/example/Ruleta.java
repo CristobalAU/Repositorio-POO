@@ -5,45 +5,70 @@ import java.util.Random;
 public class Ruleta {
     public static final int MAX_HISTORIAL = 100;
 
-    private static final int[] historialNumeros =
+    private final int[] historialNumeros =
             new int[MAX_HISTORIAL];
 
-    private static final int[] historialApuestas =
+    private final int[] historialApuestas =
             new int[MAX_HISTORIAL];
 
-    private static final boolean[] historialAciertos =
+    private final boolean[] historialAciertos =
             new boolean[MAX_HISTORIAL];
 
-    private static int historialSize = 0;
+    private int historialSize = 0;
 
-    private static final Random rng = new Random();
+    private int saldo;
 
-    private static final int[] numerosRojos = {
+    private final Random rng = new Random();
+
+    private static final int[] NUMEROS_ROJOS = {
             1, 3, 5, 7, 9, 12, 14, 16, 18,
             19, 21, 23, 25, 27, 30, 32, 34, 36
     };
 
-    public static int girarRuleta() {
+    public Ruleta() {
+        this(0);
+    }
+
+    public Ruleta(int saldoInicial) {
+        this.saldo = Math.max(0, saldoInicial);
+        this.historialSize = 0;
+    }
+
+    public int getSaldo() {
+        return saldo;
+    }
+
+    public void setSaldo(int saldo) {
+        if (saldo >= 0) {
+            this.saldo = saldo;
+        }
+    }
+
+    public int getHistorialSize() {
+        return historialSize;
+    }
+
+    public int girarRuleta() {
         return rng.nextInt(37);
     }
 
-    public static boolean evaluarResultado(int numero, char tipo) {
+    public boolean evaluarResultado(int numero, TipoApuesta tipo) {
 
-        if (numero == 0) {
+        if (numero < 1 || numero > 36 || tipo == null) {
             return false;
         }
 
         switch (tipo) {
-            case 'R':
+            case ROJO:
                 return esRojo(numero);
 
-            case 'N':
+            case NEGRO:
                 return !esRojo(numero);
 
-            case 'P':
+            case PAR:
                 return numero % 2 == 0;
 
-            case 'I':
+            case IMPAR:
                 return numero % 2 != 0;
 
             default:
@@ -51,9 +76,9 @@ public class Ruleta {
         }
     }
 
-    public static boolean esRojo(int numero) {
+    public boolean esRojo(int numero) {
 
-        for (int rojo : numerosRojos) {
+        for (int rojo : NUMEROS_ROJOS) {
             if (rojo == numero) {
                 return true;
             }
@@ -62,7 +87,7 @@ public class Ruleta {
         return false;
     }
 
-    public static void registrarResultado(
+    public void registrarResultado(
             int numero,
             int apuesta,
             boolean acierto) {
@@ -79,11 +104,7 @@ public class Ruleta {
         }
     }
 
-    public static int getHistorialSize() {
-        return historialSize;
-    }
-
-    public static int calcularTotalApostado() {
+    public int calcularTotalApostado() {
 
         int total = 0;
 
@@ -95,7 +116,7 @@ public class Ruleta {
         return total;
     }
 
-    public static int calcularTotalAciertos() {
+    public int calcularTotalAciertos() {
 
         int aciertos =0;
 
@@ -108,7 +129,7 @@ public class Ruleta {
         return aciertos;
     }
 
-    public static int calcularGananciaNeta() {
+    public int calcularGananciaNeta() {
 
         int ganancia = 0;
 
@@ -123,7 +144,7 @@ public class Ruleta {
         return ganancia;
     }
 
-    public static double calcularPorcentajeAciertos() {
+    public double calcularPorcentajeAciertos() {
 
         if (historialSize == 0) {
             return 0;
