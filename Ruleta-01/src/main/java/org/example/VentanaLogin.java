@@ -9,6 +9,13 @@ public class VentanaLogin {
 
     public static final List<Usuario> USUARIOS = new ArrayList<>();
 
+    static {
+        USUARIOS.add(new Usuario("admin", "1234", "Administrador"));
+        USUARIOS.add(new Usuario("jugador", "1234", "Jugador"));
+    }
+
+    private final SessionController controller;
+
     private final JFrame frame =
             new JFrame("Login - Casino Black Cat");
 
@@ -23,14 +30,12 @@ public class VentanaLogin {
     private final JButton btnRegistrar =
             new JButton("Registrarse");
 
-    public VentanaLogin() {
 
-        if (USUARIOS.isEmpty()) {
-            USUARIOS.add(new Usuario("admin", "1234", "Administrador"));
-            USUARIOS.add(new Usuario("jugador", "1234", "Jugador"));
-        }
+    public VentanaLogin(SessionController controller) {
 
-        frame.setSize(400,250);
+        this.controller = controller;
+
+        frame.setSize(400, 250);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(null);
 
@@ -51,7 +56,11 @@ public class VentanaLogin {
         frame.add(btnRegistrar);
 
         btnIngresar.addActionListener(e -> login());
-        btnRegistrar.addActionListener(e -> abrirRegistro());
+
+        btnRegistrar.addActionListener(e -> {
+            frame.dispose();
+            new VentanaRegistro().mostrarVentana();
+        });
     }
 
     public void mostrarVentana() {
@@ -61,50 +70,30 @@ public class VentanaLogin {
 
     private void login() {
 
-        String usuario = txtUsuario.getText();
+        String usuarioIngresado = txtUsuario.getText().trim();
         String clave = new String(txtClave.getPassword());
-
-        String nombre = validarCredenciales(usuario, clave);
-
-        if (!nombre.isEmpty()) {
-            JOptionPane.showMessageDialog(
-                    frame,
-                    "Bienvenido " + nombre
-            );
-
-            frame.dispose();
-
-            VentanaMenu ventanaMenu = new VentanaMenu(nombre);
-            ventanaMenu.mostrarVentana();
-
-
-        } else {
-            JOptionPane.showMessageDialog(
-                    frame,
-                    "Usuario o contraseña incorrectos"
-            );
-        }
-    }
-
-    private String validarCredenciales(String u, String p) {
 
         for (Usuario usuario : USUARIOS) {
 
-            if (usuario.validarCredenciales(u, p)) {
+            if (usuario.validarCredenciales(usuarioIngresado, clave)) {
 
-                return usuario.getNombre();
+                controller.iniciarSesion(usuario);
+
+                JOptionPane.showMessageDialog(
+                        frame,
+                        "Bienvenido " + controller.getNombreUsuario()
+                );
+
+                frame.dispose();
+
+                new VentanaMenu(controller).mostrarVentana();
+                return;
             }
         }
 
-        return "";
+        JOptionPane.showMessageDialog(
+                frame,
+                "Usuario o clave incorrectos"
+        );
     }
-
-    private void abrirRegistro() {
-
-        frame.dispose();
-
-        VentanaRegistro registro = new VentanaRegistro();
-        registro.mostrarVentana();
-    }
-
 }

@@ -4,7 +4,8 @@ public class Main {
 
     public static void main(String [] args) {
 
-        VentanaLogin login = new VentanaLogin();
+        SessionController controller = new SessionController();
+        VentanaLogin login = new VentanaLogin(controller);
         login.mostrarVentana();
     }
 }
