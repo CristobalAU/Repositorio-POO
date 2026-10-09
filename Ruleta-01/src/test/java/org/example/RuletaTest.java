@@ -1,3 +1,4 @@
+
 package org.example;
 
 import org.junit.jupiter.api.Test;
@@ -6,59 +7,50 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class RuletaTest {
 
+    private final Ruleta ruleta = new Ruleta();
+
     @Test
     void numeroRojoDebeRetornarTrue() {
-
-        boolean resultado = Ruleta.esRojo(1);
-
-        assertTrue(resultado);
+        assertTrue(ruleta.esRojo(1));
     }
 
     @Test
     void numeroNegroDebeRetornarFalse() {
-
-        boolean resultado = Ruleta.esRojo(2);
-
-        assertFalse(resultado);
+        assertFalse(ruleta.esRojo(2));
     }
 
     @Test
     void apuestaRojoDebeGanarConNumeroRojo() {
-
-        boolean resultado = Ruleta.evaluarResultado(1, 'R');
-
-        assertTrue(resultado);
+        assertTrue(
+                ruleta.evaluarResultado(1, TipoApuesta.ROJO)
+        );
     }
 
     @Test
     void apuestaRojoDebePerderConNumeroNegro() {
-
-        boolean resultado = Ruleta.evaluarResultado(2, 'R');
-
-        assertFalse(resultado);
+        assertFalse(
+                ruleta.evaluarResultado(2, TipoApuesta.ROJO)
+        );
     }
 
     @Test
     void apuestaParDebeGanarConNumeroPar() {
-
-        boolean resultado = Ruleta.evaluarResultado(8, 'P');
-
-        assertTrue(resultado);
+        assertTrue(
+                ruleta.evaluarResultado(8, TipoApuesta.PAR)
+        );
     }
 
     @Test
-    void apuestaImparDebeGanarConNumeroImpar () {
-
-        boolean resultado = Ruleta.evaluarResultado(7, 'I');
-
-        assertTrue(resultado);
+    void apuestaImparDebeGanarConNumeroImpar() {
+        assertTrue(
+                ruleta.evaluarResultado(7, TipoApuesta.IMPAR)
+        );
     }
 
     @Test
-    void ceroDebePerderEnApuestaPar() {
-
-        boolean resultado = Ruleta.evaluarResultado(0, 'P');
-
-        assertFalse(resultado);
+    void numeroCeroDebePerderCualquierApuesta() {
+        assertFalse(
+                ruleta.evaluarResultado(0, TipoApuesta.ROJO)
+        );
     }
 }

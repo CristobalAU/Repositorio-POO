@@ -1,61 +1,74 @@
+
 package org.example;
+
 import javax.swing.*;
 
 public class VentanaRegistro {
+
+    private final SessionController controller;
 
     private final JFrame frame =
             new JFrame("Registro - Casino Black Cat");
 
     private final JLabel lblUsuario =
-            new JLabel("Usuario");
+            new JLabel("Usuario:");
 
     private final JTextField txtUsuario =
             new JTextField();
 
     private final JLabel lblClave =
-            new JLabel("Clave");
+            new JLabel("Contraseña:");
 
     private final JPasswordField txtClave =
             new JPasswordField();
 
     private final JLabel lblNombre =
-            new JLabel("Nombre Completo");
+            new JLabel("Nombre completo:");
 
     private final JTextField txtNombre =
             new JTextField();
 
     private final JButton btnRegistrar =
-            new JButton("Registrar");
+            new JButton("Registrarse");
 
-    public VentanaRegistro() {
+    private final JButton btnVolver =
+            new JButton("Volver al Login");
 
-        frame.setSize(450, 300);
+    public VentanaRegistro(SessionController controller) {
+
+        this.controller = controller;
+
+        frame.setSize(450, 350);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(null);
 
-        lblUsuario.setBounds(50, 40, 120, 25);
-        txtUsuario.setBounds(180, 40, 180, 25);
+        lblUsuario.setBounds(40, 40, 130, 25);
+        txtUsuario.setBounds(180, 40, 200, 25);
 
-        lblClave.setBounds(50, 80, 120, 25);
-        txtClave.setBounds(180, 80, 180, 25);
+        lblClave.setBounds(40, 85, 130, 25);
+        txtClave.setBounds(180, 85, 200, 25);
 
-        lblNombre.setBounds(50, 120, 120, 25);
-        txtNombre.setBounds(180, 120, 180, 25);
+        lblNombre.setBounds(40, 130, 130, 25);
+        txtNombre.setBounds(180, 130, 200, 25);
 
-        btnRegistrar.setBounds(160, 180, 120, 30);
+        btnRegistrar.setBounds(120, 190, 200, 35);
+        btnVolver.setBounds(120, 245, 200, 35);
 
         frame.add(lblUsuario);
         frame.add(txtUsuario);
-
         frame.add(lblClave);
         frame.add(txtClave);
-
         frame.add(lblNombre);
         frame.add(txtNombre);
-
         frame.add(btnRegistrar);
+        frame.add(btnVolver);
 
-        btnRegistrar.addActionListener(e -> registrarUsuario());
+        btnRegistrar.addActionListener(e -> registrar());
+
+        btnVolver.addActionListener(e -> {
+            frame.dispose();
+            new VentanaLogin(controller).mostrarVentana();
+        });
     }
 
     public void mostrarVentana() {
@@ -63,26 +76,37 @@ public class VentanaRegistro {
         frame.setVisible(true);
     }
 
-    private void registrarUsuario() {
+    private void registrar() {
 
-        String usuario = txtUsuario.getText();
-        String clave = new String(txtClave.getPassword());
-        String nombre = txtNombre.getText();
+        String username = txtUsuario.getText().trim();
+        String password = new String(txtClave.getPassword());
+        String nombre = txtNombre.getText().trim();
 
-        if (usuario.isEmpty() ||
-                clave.isEmpty() ||
+        if (username.isEmpty() ||
+                password.isEmpty() ||
                 nombre.isEmpty()) {
 
             JOptionPane.showMessageDialog(
                     frame,
                     "Debe completar todos los campos"
             );
-
             return;
         }
 
+        for (Usuario usuario : VentanaLogin.USUARIOS) {
+
+            if (usuario.getUsername().equals(username)) {
+
+                JOptionPane.showMessageDialog(
+                        frame,
+                        "El nombre de usuario ya existe"
+                );
+                return;
+            }
+        }
+
         Usuario nuevoUsuario =
-                new Usuario(usuario, clave, nombre);
+                new Usuario(username, password, nombre);
 
         VentanaLogin.USUARIOS.add(nuevoUsuario);
 
@@ -92,8 +116,6 @@ public class VentanaRegistro {
         );
 
         frame.dispose();
-
-        VentanaLogin login = new VentanaLogin();
-        login.mostrarVentana();
+        new VentanaLogin(controller).mostrarVentana();
     }
 }

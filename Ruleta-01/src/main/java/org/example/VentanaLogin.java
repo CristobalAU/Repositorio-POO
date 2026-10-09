@@ -59,7 +59,7 @@ public class VentanaLogin {
 
         btnRegistrar.addActionListener(e -> {
             frame.dispose();
-            new VentanaRegistro().mostrarVentana();
+            new VentanaRegistro(controller).mostrarVentana();
         });
     }
 

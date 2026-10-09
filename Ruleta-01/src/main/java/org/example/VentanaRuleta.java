@@ -1,81 +1,94 @@
+
 package org.example;
 
 import javax.swing.*;
 
 public class VentanaRuleta {
 
+    private final SessionController controller;
+
     private final JFrame frame =
             new JFrame("Ruleta - Casino Black Cat");
 
-    private final JLabel lblBienvenida =
-            new JLabel();
+    private final JLabel lblBienvenida = new JLabel();
+    private final JLabel lblSaldo = new JLabel();
+
+    private final JLabel lblTipoApuesta =
+            new JLabel("Tipo de apuesta:");
+
+    private final JComboBox<TipoApuesta> cmbTipoApuesta =
+            new JComboBox<>(TipoApuesta.values());
 
     private final JButton btnJugar =
             new JButton("Iniciar Ronda");
 
     private final JButton btnEstadisticas =
-            new JButton("Ver estadisticas");
+            new JButton("Ver Estadísticas");
 
-    public VentanaRuleta(String nombre) {
+    private final JButton btnVolver =
+            new JButton("Volver al Menú");
 
-        frame.setSize(500, 350);
+    public VentanaRuleta(SessionController controller) {
+
+        this.controller = controller;
+
+        frame.setSize(500, 400);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(null);
 
-        lblBienvenida.setText("Bienvenido " + nombre);
-        lblBienvenida.setBounds(50, 30, 300, 30);
+        lblBienvenida.setBounds(50, 20, 350, 30);
+        lblSaldo.setBounds(50, 55, 350, 30);
 
-        btnJugar.setBounds(150, 100, 180, 35);
-        btnEstadisticas.setBounds(150, 160, 180, 35);
+        lblTipoApuesta.setBounds(50, 105, 130, 30);
+        cmbTipoApuesta.setBounds(190, 105, 200, 30);
+
+        btnJugar.setBounds(150, 160, 200, 35);
+        btnEstadisticas.setBounds(150, 215, 200, 35);
+        btnVolver.setBounds(150, 270, 200, 35);
 
         frame.add(lblBienvenida);
+        frame.add(lblSaldo);
+        frame.add(lblTipoApuesta);
+        frame.add(cmbTipoApuesta);
         frame.add(btnJugar);
         frame.add(btnEstadisticas);
+        frame.add(btnVolver);
 
         btnJugar.addActionListener(e -> iniciarRonda());
-        btnEstadisticas.addActionListener(e -> mostrarEstadisticas());
 
+        btnEstadisticas.addActionListener(
+                e -> mostrarEstadisticas()
+        );
+
+        btnVolver.addActionListener(e -> {
+            frame.dispose();
+            new VentanaMenu(controller).mostrarVentana();
+        });
     }
 
     public void mostrarVentana() {
+
+        actualizarDatos();
+
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
 
-    private void iniciarRonda() {
+    private void actualizarDatos() {
 
-        String apuesta = JOptionPane.showInputDialog(
-                frame,
-                "Ingrese su apuesta:\nR = Rojo\nN = Negro\nP = Par\nI = Impar"
+        lblBienvenida.setText(
+                "Bienvenido " + controller.getNombreUsuario()
         );
 
-        if (apuesta == null) {
-            return;
-        }
+        lblSaldo.setText(
+                "Saldo disponible: $" + controller.getSaldo()
+        );
+    }
 
-        apuesta = apuesta.toUpperCase();
+    private void iniciarRonda() {
 
-        if (apuesta.length() != 1) {
-            JOptionPane.showMessageDialog(
-                    frame,
-                    "Apuesta invalida"
-            );
-            return;
-        }
-
-        char tipo = apuesta.charAt(0);
-
-        if (tipo != 'R' &&
-                tipo != 'N' &&
-                tipo != 'P' &&
-                tipo != 'I') {
-
-            JOptionPane.showMessageDialog(
-                    frame,
-                    "Debe ingresar R, N, P o I"
-            );
-            return;
-        }
+        TipoApuesta tipo =
+                (TipoApuesta) cmbTipoApuesta.getSelectedItem();
 
         int monto = leerMonto();
 
@@ -83,23 +96,29 @@ public class VentanaRuleta {
             return;
         }
 
-        int numero = Ruleta.girarRuleta();
+        try {
 
-        boolean acierto = Ruleta.evaluarResultado(numero, tipo);
+            int numero = controller.jugarRonda(tipo, monto);
 
-        Ruleta.registrarResultado(
-                numero,
-                monto,
-                acierto
-        );
+            boolean acierto = controller.getRuleta()
+                    .evaluarResultado(numero, tipo);
 
-        mostrarResultado(
-                numero,
-                tipo,
-                monto,
-                acierto
-        );
+            mostrarResultado(
+                    numero,
+                    tipo,
+                    monto,
+                    acierto
+            );
 
+            actualizarDatos();
+
+        } catch (IllegalArgumentException e) {
+
+            JOptionPane.showMessageDialog(
+                    frame,
+                    e.getMessage()
+            );
+        }
     }
 
     private int leerMonto() {
@@ -108,7 +127,8 @@ public class VentanaRuleta {
 
             String entrada = JOptionPane.showInputDialog(
                     frame,
-                    "Ingrese el monto a apostar:"
+                    "Saldo disponible: $" + controller.getSaldo() +
+                            "\nIngrese el monto a apostar:"
             );
 
             if (entrada == null) {
@@ -117,22 +137,31 @@ public class VentanaRuleta {
 
             try {
 
-                int monto = Integer.parseInt(entrada);
+                int monto = Integer.parseInt(entrada.trim());
 
-                if (monto > 0) {
+                if (monto <= 0) {
+
+                    JOptionPane.showMessageDialog(
+                            frame,
+                            "El monto debe ser mayor que 0"
+                    );
+
+                } else if (monto > controller.getSaldo()) {
+
+                    JOptionPane.showMessageDialog(
+                            frame,
+                            "Saldo insuficiente"
+                    );
+
+                } else {
                     return monto;
                 }
-
-                JOptionPane.showMessageDialog(
-                        frame,
-                        "El monto debe ser mayor que 0"
-                );
 
             } catch (NumberFormatException e) {
 
                 JOptionPane.showMessageDialog(
                         frame,
-                        "Debe ingresar un numero valido"
+                        "Debe ingresar un número válido"
                 );
             }
         }
@@ -140,7 +169,7 @@ public class VentanaRuleta {
 
     private void mostrarResultado(
             int numero,
-            char tipo,
+            TipoApuesta tipo,
             int monto,
             boolean acierto) {
 
@@ -148,17 +177,17 @@ public class VentanaRuleta {
 
         if (numero == 0) {
             color = "Verde";
-        } else if (Ruleta.esRojo(numero)) {
+        } else if (controller.getRuleta().esRojo(numero)) {
             color = "Rojo";
         } else {
             color = "Negro";
         }
 
         String mensaje =
-                "Numero obtenido: " + numero +
-                "\nColor: " + color +
-                "\nTipo de apuesta: " + tipo +
-                "\nMonto apostado: $" + monto;
+                "Número obtenido: " + numero +
+                        "\nColor: " + color +
+                        "\nTipo de apuesta: " + tipo +
+                        "\nMonto apostado: $" + monto;
 
         if (acierto) {
             mensaje += "\n\n¡GANASTE!";
@@ -166,36 +195,43 @@ public class VentanaRuleta {
             mensaje += "\n\nPERDISTE.";
         }
 
+        mensaje += "\nSaldo actual: $" + controller.getSaldo();
+
         JOptionPane.showMessageDialog(
                 frame,
                 mensaje
         );
-
     }
 
     private void mostrarEstadisticas() {
 
-        int totalApostado = Ruleta.calcularTotalApostado();
-        int totalAciertos = Ruleta.calcularTotalAciertos();
-        int gananciaNeta = Ruleta.calcularGananciaNeta();
-        double porcentajeAciertos = Ruleta.calcularPorcentajeAciertos();
+        Ruleta ruleta = controller.getRuleta();
+
+        int totalApostado =
+                ruleta.calcularTotalApostado();
+
+        int totalAciertos =
+                ruleta.calcularTotalAciertos();
+
+        int gananciaNeta =
+                ruleta.calcularGananciaNeta();
+
+        double porcentajeAciertos =
+                ruleta.calcularPorcentajeAciertos();
 
         String mensaje =
-                "Rondas jugadas: " + Ruleta.getHistorialSize() +
-                "\nMonto total apostado: $" + totalApostado +
-                "\nTotal de aciertos: " + totalAciertos +
-                "\nPorcentaje de aciertos: " +
-                String.format("%.2f", porcentajeAciertos) + "%" +
-                "\nGanancia/perdida neta: $" + gananciaNeta;
+                "Rondas jugadas: " + ruleta.getHistorialSize() +
+                        "\nMonto total apostado: $" + totalApostado +
+                        "\nTotal de aciertos: " + totalAciertos +
+                        "\nPorcentaje de aciertos: " +
+                        String.format("%.2f", porcentajeAciertos) + "%" +
+                        "\nGanancia/pérdida neta: $" + gananciaNeta;
 
         JOptionPane.showMessageDialog(
                 frame,
                 mensaje,
-                "Estadisticas",
+                "Estadísticas",
                 JOptionPane.INFORMATION_MESSAGE
         );
     }
-
-
-
 }
