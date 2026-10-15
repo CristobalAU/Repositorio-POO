@@ -18,6 +18,9 @@ public class VentanaMenu {
     private final JButton btnPerfil =
             new JButton("Ver Perfil");
 
+    private final JButton btnHistorial =
+            new JButton("Ver Historial");
+
     private final JButton btnCerrarSesion =
             new JButton("Cerrar Sesión");
 
@@ -25,7 +28,7 @@ public class VentanaMenu {
 
         this.controller = controller;
 
-        frame.setSize(450, 350);
+        frame.setSize(450, 400);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(null);
 
@@ -34,12 +37,14 @@ public class VentanaMenu {
 
         btnJugar.setBounds(110, 115, 230, 35);
         btnPerfil.setBounds(110, 165, 230, 35);
-        btnCerrarSesion.setBounds(110, 215, 230, 35);
+        btnHistorial.setBounds(110, 215, 230, 35);
+        btnCerrarSesion.setBounds(110, 265, 230, 35);
 
         frame.add(lblBienvenida);
         frame.add(lblSaldo);
         frame.add(btnJugar);
         frame.add(btnPerfil);
+        frame.add(btnHistorial);
         frame.add(btnCerrarSesion);
 
         btnJugar.addActionListener(e -> {
@@ -50,6 +55,17 @@ public class VentanaMenu {
         btnPerfil.addActionListener(e -> {
             frame.dispose();
             new VentanaPerfil(controller).mostrarVentana();
+        });
+
+        btnHistorial.addActionListener(e -> {
+
+            ResultadoController resultadoController =
+                    new ResultadoController(controller);
+
+            VentanaHistorial ventanaHistorial =
+                    new VentanaHistorial(resultadoController);
+
+            ventanaHistorial.mostrar();
         });
 
         btnCerrarSesion.addActionListener(e -> {
