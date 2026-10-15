@@ -1,5 +1,8 @@
 package org.example;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Usuario {
 
     private String username;
@@ -7,11 +10,14 @@ public class Usuario {
     private String nombre;
     private int saldo;
 
+    private final List<Resultado> historial;
+
     public Usuario() {
         this.username = "invitado";
         this.password = "";
         this.nombre = "Invitado";
         this.saldo = 0;
+        this.historial = new ArrayList<>();
     }
 
     public Usuario(String username, String password, String nombre) {
@@ -20,6 +26,7 @@ public class Usuario {
         this.nombre = "Invitado";
         setNombre(nombre);
         this.saldo = 0;
+        this.historial = new ArrayList<>();
     }
 
     public String getUsername() {
@@ -57,5 +64,15 @@ public class Usuario {
 
         saldo += monto;
         return true;
+    }
+
+    public List<Resultado> getHistorial() {
+        return new ArrayList<>(historial);
+    }
+
+    public void agregarResultado(Resultado resultado) {
+        if (resultado != null) {
+            historial.add(resultado);
+        }
     }
 }

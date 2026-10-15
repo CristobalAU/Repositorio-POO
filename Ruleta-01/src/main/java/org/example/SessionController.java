@@ -68,13 +68,26 @@ public class SessionController {
         }
 
         int numero = ruleta.girarRuleta();
+
         boolean acierto = ruleta.evaluarResultado(numero, tipo);
 
-        if (acierto) {
-            usuarioActual.setSaldo(usuarioActual.getSaldo() + monto);
-        } else {
-            usuarioActual.setSaldo(usuarioActual.getSaldo() - monto);
-        }
+        int ganancia = acierto ? monto : -monto;
+
+        usuarioActual.setSaldo(
+                usuarioActual.getSaldo() + ganancia
+        );
+
+        Resultado resultado = new Resultado(
+                numero,
+                tipo,
+                monto,
+                acierto,
+                ganancia
+        );
+
+        usuarioActual.agregarResultado(resultado);
+
+        ruleta.agregarResultado(resultado);
 
         ruleta.registrarResultado(numero, monto, acierto);
 

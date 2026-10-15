@@ -1,9 +1,13 @@
 package org.example;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class Ruleta {
     public static final int MAX_HISTORIAL = 100;
+
+    private final List<Resultado> resultados = new ArrayList<>();
 
     private final int[] historialNumeros =
             new int[MAX_HISTORIAL];
@@ -151,6 +155,16 @@ public class Ruleta {
         }
 
         return (calcularTotalAciertos() * 100.0) / historialSize;
+    }
+
+    public void agregarResultado(Resultado resultado) {
+        if (resultado != null) {
+            resultados.add(resultado);
+        }
+    }
+
+    public List<Resultado> getResultados() {
+        return new ArrayList<>(resultados);
     }
 }
 
