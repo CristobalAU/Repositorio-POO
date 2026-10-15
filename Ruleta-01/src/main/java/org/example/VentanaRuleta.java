@@ -7,6 +7,8 @@ public class VentanaRuleta {
 
     private final SessionController controller;
 
+    private final RuletaController ruletaController;
+
     private final JFrame frame =
             new JFrame("Ruleta - Casino Black Cat");
 
@@ -31,6 +33,10 @@ public class VentanaRuleta {
     public VentanaRuleta(SessionController controller) {
 
         this.controller = controller;
+        this.ruletaController = new RuletaController(
+                controller.getRuleta(),
+                controller
+        );
 
         frame.setSize(500, 400);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -98,10 +104,9 @@ public class VentanaRuleta {
 
         try {
 
-            int numero = controller.jugarRonda(tipo, monto);
+            int numero = ruletaController.jugarRonda(tipo, monto);
 
-            boolean acierto = controller.getRuleta()
-                    .evaluarResultado(numero, tipo);
+            boolean acierto = ruletaController.evaluarResultado(numero, tipo);
 
             mostrarResultado(
                     numero,
@@ -177,7 +182,7 @@ public class VentanaRuleta {
 
         if (numero == 0) {
             color = "Verde";
-        } else if (controller.getRuleta().esRojo(numero)) {
+        } else if (ruletaController.esRojo(numero)) {
             color = "Rojo";
         } else {
             color = "Negro";
@@ -205,22 +210,23 @@ public class VentanaRuleta {
 
     private void mostrarEstadisticas() {
 
-        Ruleta ruleta = controller.getRuleta();
-
         int totalApostado =
-                ruleta.calcularTotalApostado();
+                ruletaController.getTotalApostado();
 
         int totalAciertos =
-                ruleta.calcularTotalAciertos();
+                ruletaController.getTotalAciertos();
 
         int gananciaNeta =
-                ruleta.calcularGananciaNeta();
+                ruletaController.getGananciaNeta();
 
         double porcentajeAciertos =
-                ruleta.calcularPorcentajeAciertos();
+                ruletaController.getPorcentajeAciertos();
+
+        int rondasJugadas =
+                ruletaController.getRondasJugadas();
 
         String mensaje =
-                "Rondas jugadas: " + ruleta.getHistorialSize() +
+                "Rondas jugadas: " + rondasJugadas +
                         "\nMonto total apostado: $" + totalApostado +
                         "\nTotal de aciertos: " + totalAciertos +
                         "\nPorcentaje de aciertos: " +
