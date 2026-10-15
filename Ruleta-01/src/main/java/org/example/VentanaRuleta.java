@@ -9,6 +9,8 @@ public class VentanaRuleta {
 
     private final RuletaController ruletaController;
 
+    private final ResultadoController resultadoController;
+
     private final JFrame frame =
             new JFrame("Ruleta - Casino Black Cat");
 
@@ -37,6 +39,7 @@ public class VentanaRuleta {
                 controller.getRuleta(),
                 controller
         );
+        this.resultadoController = new ResultadoController(controller);
 
         frame.setSize(500, 400);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -211,19 +214,19 @@ public class VentanaRuleta {
     private void mostrarEstadisticas() {
 
         int totalApostado =
-                ruletaController.getTotalApostado();
+                resultadoController.getTotalApostado();
 
         int totalAciertos =
-                ruletaController.getTotalAciertos();
+                resultadoController.getTotalAciertos();
 
         int gananciaNeta =
-                ruletaController.getGananciaNeta();
+                resultadoController.getGananciaNeta();
 
         double porcentajeAciertos =
-                ruletaController.getPorcentajeAciertos();
+                resultadoController.getPorcentajeAciertos();
 
         int rondasJugadas =
-                ruletaController.getRondasJugadas();
+                resultadoController.getRondasJugadas();
 
         String mensaje =
                 "Rondas jugadas: " + rondasJugadas +
