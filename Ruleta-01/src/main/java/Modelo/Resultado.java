@@ -1,4 +1,4 @@
-package org.example;
+package Modelo;
 
 public class Resultado {
 

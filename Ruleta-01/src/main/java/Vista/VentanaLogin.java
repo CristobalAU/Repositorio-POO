@@ -1,4 +1,7 @@
-package org.example;
+package Vista;
+
+import Controlador.SessionController;
+import Modelo.Usuario;
 
 import javax.swing.*;
 import java.util.ArrayList;

@@ -1,4 +1,9 @@
-package org.example;
+package Controlador;
+
+import Modelo.Resultado;
+import Modelo.Ruleta;
+import Modelo.TipoApuesta;
+import Modelo.Usuario;
 
 public class SessionController {
 

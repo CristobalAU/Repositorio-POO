@@ -1,4 +1,7 @@
-package org.example;
+package Controlador;
+
+import Modelo.Ruleta;
+import Modelo.TipoApuesta;
 
 public class RuletaController {
 

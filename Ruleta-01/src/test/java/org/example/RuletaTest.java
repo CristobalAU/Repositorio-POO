@@ -1,6 +1,8 @@
 
 package org.example;
 
+import Modelo.Ruleta;
+import Modelo.TipoApuesta;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

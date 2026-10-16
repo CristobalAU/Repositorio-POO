@@ -1,4 +1,7 @@
-package org.example;
+package Vista;
+
+import Controlador.ResultadoController;
+import Modelo.Resultado;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;

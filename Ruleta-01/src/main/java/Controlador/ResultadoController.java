@@ -1,4 +1,7 @@
-package org.example;
+package Controlador;
+
+import Modelo.Resultado;
+import Modelo.Usuario;
 
 import java.util.Collections;
 import java.util.List;

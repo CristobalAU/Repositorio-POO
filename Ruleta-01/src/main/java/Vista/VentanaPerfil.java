@@ -1,4 +1,6 @@
-package org.example;
+package Vista;
+
+import Controlador.SessionController;
 
 import javax.swing.*;
 
