@@ -89,8 +89,6 @@ public class SessionController {
 
         ruleta.agregarResultado(resultado);
 
-        ruleta.registrarResultado(numero, monto, acierto);
-
         return numero;
     }
 
