@@ -1,7 +1,10 @@
 package Vista;
 
 import Controlador.ResultadoController;
+import Controlador.RuletaController;
 import Controlador.SessionController;
+import Modelo.Estadisticas;
+import Modelo.TipoApuesta;
 
 import javax.swing.*;
 
@@ -24,6 +27,9 @@ public class VentanaMenu {
     private final JButton btnHistorial =
             new JButton("Ver Historial");
 
+    private final JButton btnEstadisticas =
+            new JButton("Ver Estadísticas");
+
     private final JButton btnCerrarSesion =
             new JButton("Cerrar Sesión");
 
@@ -31,7 +37,7 @@ public class VentanaMenu {
 
         this.controller = controller;
 
-        frame.setSize(450, 400);
+        frame.setSize(450, 450);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(null);
 
@@ -41,13 +47,15 @@ public class VentanaMenu {
         btnJugar.setBounds(110, 115, 230, 35);
         btnPerfil.setBounds(110, 165, 230, 35);
         btnHistorial.setBounds(110, 215, 230, 35);
-        btnCerrarSesion.setBounds(110, 265, 230, 35);
+        btnEstadisticas.setBounds(110, 265, 230, 35);
+        btnCerrarSesion.setBounds(110, 315, 230, 35);
 
         frame.add(lblBienvenida);
         frame.add(lblSaldo);
         frame.add(btnJugar);
         frame.add(btnPerfil);
         frame.add(btnHistorial);
+        frame.add(btnEstadisticas);
         frame.add(btnCerrarSesion);
 
         btnJugar.addActionListener(e -> {
@@ -71,11 +79,54 @@ public class VentanaMenu {
             ventanaHistorial.mostrar();
         });
 
+        btnEstadisticas.addActionListener(e -> {
+            mostrarEstadisticas();
+        });
+
         btnCerrarSesion.addActionListener(e -> {
             controller.cerrarSesion();
             frame.dispose();
             new VentanaLogin(controller).mostrarVentana();
         });
+    }
+
+    private void mostrarEstadisticas() {
+
+        RuletaController ruletaController =
+                new RuletaController(controller.getRuleta(), controller);
+
+        Estadisticas estadisticas =
+                ruletaController.obtenerEstadisticas();
+
+        int totalApostado =
+                ruletaController.getTotalApostado();
+
+        int gananciaNeta =
+                ruletaController.getGananciaNeta();
+
+        TipoApuesta tipoMasJugado =
+                estadisticas.getTipoMasJugado();
+
+        String mensaje =
+                "Rondas jugadas: " + estadisticas.getTotalJugadas() +
+                        "\nMonto total apostado: $" + totalApostado +
+                        "\nTotal de victorias: " + estadisticas.getVictorias() +
+                        "\nPorcentaje de victorias: " +
+                        String.format("%.2f", estadisticas.getPorcentajeVictorias()) + "%" +
+                        "\nGanancia/pérdida neta: $" + gananciaNeta +
+                        "\nRacha máxima de victorias: " +
+                        estadisticas.getRachaMaxima() +
+                        "\nTipo de apuesta más utilizado: " +
+                        (tipoMasJugado != null ? tipoMasJugado : "Ninguno");
+
+        JOptionPane.showMessageDialog(
+                frame,
+                mensaje,
+                "Estadísticas - Casino Black Cat",
+                JOptionPane.INFORMATION_MESSAGE
+        );
+
+
     }
 
     public void mostrarVentana() {

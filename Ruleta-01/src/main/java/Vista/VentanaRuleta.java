@@ -1,11 +1,9 @@
 
 package Vista;
 
-import Controlador.ResultadoController;
 import Controlador.RuletaController;
 import Controlador.SessionController;
 import Modelo.TipoApuesta;
-import Modelo.Estadisticas;
 
 import javax.swing.*;
 
@@ -14,8 +12,6 @@ public class VentanaRuleta {
     private final SessionController controller;
 
     private final RuletaController ruletaController;
-
-    private final ResultadoController resultadoController;
 
     private final JFrame frame =
             new JFrame("Ruleta - Casino Black Cat");
@@ -32,9 +28,6 @@ public class VentanaRuleta {
     private final JButton btnJugar =
             new JButton("Iniciar Ronda");
 
-    private final JButton btnEstadisticas =
-            new JButton("Ver Estadísticas");
-
     private final JButton btnVolver =
             new JButton("Volver al Menú");
 
@@ -45,7 +38,6 @@ public class VentanaRuleta {
                 controller.getRuleta(),
                 controller
         );
-        this.resultadoController = new ResultadoController(controller);
 
         frame.setSize(500, 400);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -58,22 +50,16 @@ public class VentanaRuleta {
         cmbTipoApuesta.setBounds(190, 105, 200, 30);
 
         btnJugar.setBounds(150, 160, 200, 35);
-        btnEstadisticas.setBounds(150, 215, 200, 35);
-        btnVolver.setBounds(150, 270, 200, 35);
+        btnVolver.setBounds(150, 220, 200, 35);
 
         frame.add(lblBienvenida);
         frame.add(lblSaldo);
         frame.add(lblTipoApuesta);
         frame.add(cmbTipoApuesta);
         frame.add(btnJugar);
-        frame.add(btnEstadisticas);
         frame.add(btnVolver);
 
         btnJugar.addActionListener(e -> iniciarRonda());
-
-        btnEstadisticas.addActionListener(
-                e -> mostrarEstadisticas()
-        );
 
         btnVolver.addActionListener(e -> {
             frame.dispose();
@@ -217,44 +203,4 @@ public class VentanaRuleta {
         );
     }
 
-    private void mostrarEstadisticas() {
-
-        int totalApostado =
-                resultadoController.getTotalApostado();
-
-        int gananciaNeta =
-                resultadoController.getGananciaNeta();
-
-        Estadisticas estadisticas =
-                ruletaController.obtenerEstadisticas();
-
-        int totalJugadas = estadisticas.getTotalJugadas();
-        int victorias = estadisticas.getVictorias();
-
-        double porcentajeVictorias =
-                estadisticas.getPorcentajeVictorias();
-
-        int rachaMaxima = estadisticas.getRachaMaxima();
-
-        TipoApuesta tipoMasJugado =
-                estadisticas.getTipoMasJugado();
-
-        String mensaje =
-                "Rondas jugadas: " + totalJugadas +
-                        "\nMonto total apostado: $" + totalApostado +
-                        "\nTotal de victorias: " + victorias +
-                        "\nPorcentaje de victorias: " +
-                        String.format("%.2f", porcentajeVictorias) + "%" +
-                        "\nGanancia/pérdida neta: $" + gananciaNeta +
-                        "\nRacha máxima de victorias: " + rachaMaxima +
-                        "\nTipo de apuesta más utilizado: " +
-                        (tipoMasJugado != null? tipoMasJugado : "Ninguno");
-
-        JOptionPane.showMessageDialog(
-                frame,
-                mensaje,
-                "Estadísticas",
-                JOptionPane.INFORMATION_MESSAGE
-        );
-    }
 }
