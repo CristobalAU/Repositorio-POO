@@ -5,6 +5,7 @@ import Controlador.ResultadoController;
 import Controlador.RuletaController;
 import Controlador.SessionController;
 import Modelo.TipoApuesta;
+import Modelo.Estadisticas;
 
 import javax.swing.*;
 
@@ -221,25 +222,33 @@ public class VentanaRuleta {
         int totalApostado =
                 resultadoController.getTotalApostado();
 
-        int totalAciertos =
-                resultadoController.getTotalAciertos();
-
         int gananciaNeta =
                 resultadoController.getGananciaNeta();
 
-        double porcentajeAciertos =
-                resultadoController.getPorcentajeAciertos();
+        Estadisticas estadisticas =
+                ruletaController.obtenerEstadisticas();
 
-        int rondasJugadas =
-                resultadoController.getRondasJugadas();
+        int totalJugadas = estadisticas.getTotalJugadas();
+        int victorias = estadisticas.getVictorias();
+
+        double porcentajeVictorias =
+                estadisticas.getPorcentajeVictorias();
+
+        int rachaMaxima = estadisticas.getRachaMaxima();
+
+        TipoApuesta tipoMasJugado =
+                estadisticas.getTipoMasJugado();
 
         String mensaje =
-                "Rondas jugadas: " + rondasJugadas +
+                "Rondas jugadas: " + totalJugadas +
                         "\nMonto total apostado: $" + totalApostado +
-                        "\nTotal de aciertos: " + totalAciertos +
-                        "\nPorcentaje de aciertos: " +
-                        String.format("%.2f", porcentajeAciertos) + "%" +
-                        "\nGanancia/pérdida neta: $" + gananciaNeta;
+                        "\nTotal de victorias: " + victorias +
+                        "\nPorcentaje de victorias: " +
+                        String.format("%.2f", porcentajeVictorias) + "%" +
+                        "\nGanancia/pérdida neta: $" + gananciaNeta +
+                        "\nRacha máxima de victorias: " + rachaMaxima +
+                        "\nTipo de apuesta más utilizado: " +
+                        (tipoMasJugado != null? tipoMasJugado : "Ninguno");
 
         JOptionPane.showMessageDialog(
                 frame,

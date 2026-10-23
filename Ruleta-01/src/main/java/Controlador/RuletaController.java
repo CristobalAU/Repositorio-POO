@@ -2,6 +2,7 @@ package Controlador;
 
 import Modelo.Ruleta;
 import Modelo.TipoApuesta;
+import Modelo.Estadisticas;
 
 public class RuletaController {
 
@@ -43,6 +44,11 @@ public class RuletaController {
 
     public int getRondasJugadas() {
         return ruleta.getHistorialSize();
+
+    }
+
+    public Estadisticas obtenerEstadisticas() {
+        return new Estadisticas(ruleta.getResultados());
     }
 
 }
