@@ -4,7 +4,6 @@ import Controlador.ResultadoController;
 import Controlador.RuletaController;
 import Controlador.SessionController;
 import Modelo.Estadisticas;
-import Modelo.TipoApuesta;
 
 import javax.swing.*;
 
@@ -104,7 +103,7 @@ public class VentanaMenu {
         int gananciaNeta =
                 ruletaController.getGananciaNeta();
 
-        TipoApuesta tipoMasJugado =
+        String tipoMasJugado =
                 estadisticas.getTipoMasJugado();
 
         String mensaje =

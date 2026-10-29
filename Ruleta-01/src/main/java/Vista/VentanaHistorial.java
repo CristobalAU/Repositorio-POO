@@ -63,7 +63,7 @@ public class VentanaHistorial {
 
             Object[] fila = {
                     resultado.getNumero(),
-                    resultado.getTipoApuesta(),
+                    resultado.getTipoApuesta().getEtiqueta(),
                     resultado.getMontoApostado(),
                     resultado.isGano() ? "Ganó" : "Perdió",
                     resultado.getGanancia()

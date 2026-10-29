@@ -1,7 +1,7 @@
 package Controlador;
 
+import Modelo.ApuestaBase;
 import Modelo.Ruleta;
-import Modelo.TipoApuesta;
 import Modelo.Estadisticas;
 
 public class RuletaController {
@@ -14,12 +14,12 @@ public class RuletaController {
         this.session = session;
     }
 
-    public int jugarRonda(TipoApuesta tipo, int monto) {
-        return session.jugarRonda(tipo, monto);
+    public int jugarRonda(ApuestaBase apuesta) {
+        return session.jugarRonda(apuesta);
     }
 
-    public boolean evaluarResultado(int numero, TipoApuesta tipo) {
-        return ruleta.evaluarResultado(numero, tipo);
+    public boolean evaluarResultado(int numero, String color, ApuestaBase apuesta) {
+        return ruleta.evaluarResultado(numero, color, apuesta);
     }
 
     public boolean esRojo(int numero) {

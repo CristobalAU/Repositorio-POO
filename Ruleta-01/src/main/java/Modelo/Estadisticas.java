@@ -4,13 +4,18 @@ import java.util.*;
 
 public class Estadisticas {
 
-	Collection<Resultado> resultados;
+	private final Collection<Resultado> resultados;
 
 	private int totalJugadas;
 	private int victorias;
 	private double porcentajeVictorias;
 	private int rachaMaxima;
-	private TipoApuesta tipoMasJugado;
+	private String tipoMasJugado;
+
+	public Estadisticas(List<Resultado> resultados) {
+		this.resultados = new ArrayList<>(resultados);
+		calcularEstadisticas();
+	}
 
 	private void calcularEstadisticas() {
 
@@ -22,8 +27,7 @@ public class Estadisticas {
 
 		int rachaActual = 0;
 
-		Map<TipoApuesta, Integer> frecuencia =
-				new EnumMap<>(TipoApuesta.class);
+		Map<String, Integer> frecuencia = new LinkedHashMap<>();
 
 		for (Resultado resultado: resultados) {
 
@@ -38,7 +42,8 @@ public class Estadisticas {
 				rachaActual = 0;
 			}
 
-			TipoApuesta tipo = resultado.getTipoApuesta();
+			String tipo = resultado.getTipoApuesta()
+					.getEtiqueta();
 
 			frecuencia.put(
 					tipo,
@@ -53,40 +58,33 @@ public class Estadisticas {
 
 		int mayorFrecuencia = 0;
 
-		for (TipoApuesta tipo: TipoApuesta.values()) {
+		for (Map.Entry<String, Integer> entrada :
+				frecuencia.entrySet()) {
 
-			int cantidad = frecuencia.getOrDefault(tipo, 0);
-
-			if (cantidad > mayorFrecuencia) {
-				mayorFrecuencia = cantidad;
-				tipoMasJugado = tipo;
+			if (entrada.getValue() > mayorFrecuencia) {
+				mayorFrecuencia = entrada.getValue();
+				tipoMasJugado = entrada.getKey();
 			}
 		}
 	}
 
-	public Estadisticas(List<Resultado> resultados) {
-		this.resultados = new ArrayList<>(resultados);
-		calcularEstadisticas();
-	}
-
 	public int getTotalJugadas() {
-		return this.totalJugadas;
+		return totalJugadas;
 	}
 
 	public int getVictorias() {
-		return this.victorias;
+		return victorias;
 	}
 
 	public double getPorcentajeVictorias() {
-		return this.porcentajeVictorias;
+		return porcentajeVictorias;
 	}
 
 	public int getRachaMaxima() {
-		return this.rachaMaxima;
+		return rachaMaxima;
 	}
 
-	public TipoApuesta getTipoMasJugado() {
-		return this.tipoMasJugado;
+	public String getTipoMasJugado() {
+		return tipoMasJugado;
 	}
-
 }

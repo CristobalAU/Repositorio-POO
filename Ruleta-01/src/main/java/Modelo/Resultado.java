@@ -3,13 +3,13 @@ package Modelo;
 public class Resultado {
 
     private final int numero;
-    private final TipoApuesta tipoApuesta;
+    private final ApuestaBase tipoApuesta;
     private final int montoApostado;
     private final boolean gano;
     private final int ganancia;
 
     public Resultado(int numero,
-                     TipoApuesta tipoApuesta,
+                     ApuestaBase tipoApuesta,
                      int montoApostado,
                      boolean gano,
                      int ganancia) {
@@ -25,7 +25,7 @@ public class Resultado {
         return numero;
     }
 
-    public TipoApuesta getTipoApuesta() {
+    public ApuestaBase getTipoApuesta() {
         return tipoApuesta;
     }
 

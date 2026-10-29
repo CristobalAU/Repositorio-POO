@@ -20,28 +20,14 @@ public class Ruleta {
 
     }
 
-    public boolean evaluarResultado(int numero, TipoApuesta tipo) {
+    public boolean evaluarResultado(
+            int numero, String color, ApuestaBase apuesta) {
 
-        if (numero < 1 || numero > 36 || tipo == null) {
+        if (apuesta == null || numero < 0 || numero > 36) {
             return false;
         }
 
-        switch (tipo) {
-            case ROJO:
-                return esRojo(numero);
-
-            case NEGRO:
-                return !esRojo(numero);
-
-            case PAR:
-                return numero % 2 == 0;
-
-            case IMPAR:
-                return numero % 2 != 0;
-
-            default:
-                return false;
-        }
+        return apuesta.acierta(numero, color);
     }
 
     public boolean esRojo(int numero) {
@@ -53,6 +39,42 @@ public class Ruleta {
         }
 
         return false;
+    }
+
+    public String obtenerColor(int numero) {
+
+        if (numero == 0) {
+            return "Verde";
+        }
+
+        return esRojo(numero) ? "Rojo" : "Negro";
+    }
+
+    public Resultado jugar(ApuestaBase apuesta) {
+
+        if (apuesta == null) {
+            throw new IllegalArgumentException(
+                    "La apuesta no puede ser nula"
+            );
+        }
+
+        int numero = girarRuleta();
+        String color = obtenerColor(numero);
+
+        boolean acierto = evaluarResultado(
+                numero, color, apuesta
+        );
+
+        int monto = apuesta.getMonto();
+        int ganancia = acierto ? monto : -monto;
+
+        return new Resultado(
+                numero,
+                apuesta,
+                monto,
+                acierto,
+                ganancia
+        );
     }
 
     public void agregarResultado(Resultado resultado) {

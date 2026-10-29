@@ -3,7 +3,12 @@ package Vista;
 
 import Controlador.RuletaController;
 import Controlador.SessionController;
-import Modelo.TipoApuesta;
+import Modelo.ApuestaBase;
+import Modelo.ApuestaRojo;
+import Modelo.ApuestaNegro;
+import Modelo.ApuestaPar;
+import Modelo.ApuestaImpar;
+import Modelo.Resultado;
 
 import javax.swing.*;
 
@@ -22,8 +27,13 @@ public class VentanaRuleta {
     private final JLabel lblTipoApuesta =
             new JLabel("Tipo de apuesta:");
 
-    private final JComboBox<TipoApuesta> cmbTipoApuesta =
-            new JComboBox<>(TipoApuesta.values());
+    private final JComboBox<String> cmbTipoApuesta =
+            new JComboBox<>(new String[]{
+                    "Rojo",
+                    "Negro",
+                    "Par",
+                    "Impar"
+            });
 
     private final JButton btnJugar =
             new JButton("Iniciar Ronda");
@@ -86,10 +96,31 @@ public class VentanaRuleta {
         );
     }
 
+    private ApuestaBase crearApuesta(String tipo, int monto) {
+
+        switch (tipo) {
+            case "Rojo":
+                return new ApuestaRojo(monto);
+
+            case "Negro":
+                return new ApuestaNegro(monto);
+
+            case "Par":
+                return new ApuestaPar(monto);
+
+            case "Impar":
+                return new ApuestaImpar(monto);
+
+            default:
+                throw new IllegalArgumentException(
+                        "Tipo de apuesta ínválido"
+                );
+        }
+    }
+
     private void iniciarRonda() {
 
-        TipoApuesta tipo =
-                (TipoApuesta) cmbTipoApuesta.getSelectedItem();
+        String tipo = (String) cmbTipoApuesta.getSelectedItem();
 
         int monto = leerMonto();
 
@@ -99,16 +130,15 @@ public class VentanaRuleta {
 
         try {
 
-            int numero = ruletaController.jugarRonda(tipo, monto);
+            ApuestaBase apuesta = crearApuesta(tipo, monto);
 
-            boolean acierto = ruletaController.evaluarResultado(numero, tipo);
+            ruletaController.jugarRonda(apuesta);
 
-            mostrarResultado(
-                    numero,
-                    tipo,
-                    monto,
-                    acierto
-            );
+            Resultado resultado = controller.getRuleta()
+                    .getResultados()
+                    .get(controller.getRuleta().getHistorialSize() -1);
+
+            mostrarResultado(resultado);
 
             actualizarDatos();
 
@@ -167,29 +197,22 @@ public class VentanaRuleta {
         }
     }
 
-    private void mostrarResultado(
-            int numero,
-            TipoApuesta tipo,
-            int monto,
-            boolean acierto) {
+    private void mostrarResultado(Resultado resultado) {
 
-        String color;
+        int numero = resultado.getNumero();
 
-        if (numero == 0) {
-            color = "Verde";
-        } else if (ruletaController.esRojo(numero)) {
-            color = "Rojo";
-        } else {
-            color = "Negro";
-        }
+        String color = controller.getRuleta()
+                .obtenerColor(numero);
 
         String mensaje =
                 "Número obtenido: " + numero +
                         "\nColor: " + color +
-                        "\nTipo de apuesta: " + tipo +
-                        "\nMonto apostado: $" + monto;
+                        "\nTipo de apuesta: " +
+                                resultado.getTipoApuesta().getEtiqueta() +
+                        "\nMonto apostado: $" +
+                                resultado.getMontoApostado();
 
-        if (acierto) {
+        if (resultado.isGano()) {
             mensaje += "\n\n¡GANASTE!";
         } else {
             mensaje += "\n\nPERDISTE.";

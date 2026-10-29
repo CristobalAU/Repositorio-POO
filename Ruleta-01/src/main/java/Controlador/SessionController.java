@@ -2,8 +2,8 @@ package Controlador;
 
 import Modelo.Resultado;
 import Modelo.Ruleta;
-import Modelo.TipoApuesta;
 import Modelo.Usuario;
+import Modelo.ApuestaBase;
 
 public class SessionController {
 
@@ -61,40 +61,29 @@ public class SessionController {
         return true;
     }
 
-    public int jugarRonda(TipoApuesta tipo, int monto) {
+    public int jugarRonda(ApuestaBase apuesta) {
 
         if (usuarioActual == null ||
-                tipo == null ||
-                monto <=0 ||
-                monto > usuarioActual.getSaldo()) {
+                apuesta == null ||
+                apuesta.getMonto() <=0 ||
+                apuesta.getMonto() > usuarioActual.getSaldo()) {
+
             throw new IllegalArgumentException(
                     "Apuesta inválida o saldo insuficiente"
             );
         }
 
-        int numero = ruleta.girarRuleta();
-
-        boolean acierto = ruleta.evaluarResultado(numero, tipo);
-
-        int ganancia = acierto ? monto : -monto;
+        Resultado resultado = ruleta.jugar(apuesta);
 
         usuarioActual.setSaldo(
-                usuarioActual.getSaldo() + ganancia
-        );
-
-        Resultado resultado = new Resultado(
-                numero,
-                tipo,
-                monto,
-                acierto,
-                ganancia
+                usuarioActual.getSaldo() + resultado.getGanancia()
         );
 
         usuarioActual.agregarResultado(resultado);
 
         ruleta.agregarResultado(resultado);
 
-        return numero;
+        return resultado.getNumero();
     }
 
     public Ruleta getRuleta() {
