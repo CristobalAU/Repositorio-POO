@@ -1,0 +1,3 @@
+numero,tipoApuesta,monto,gano,ganancia
+10,Rojo,1000,false,-1000
+31,Par,9000,false,-9000

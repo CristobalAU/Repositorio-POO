@@ -80,16 +80,29 @@ public class VentanaLogin {
 
             if (usuario.validarCredenciales(usuarioIngresado, clave)) {
 
-                controller.iniciarSesion(usuario);
+                try {
+                    controller.iniciarSesion(usuario);
 
-                JOptionPane.showMessageDialog(
-                        frame,
-                        "Bienvenido " + controller.getNombreUsuario()
-                );
+                    JOptionPane.showMessageDialog(
+                            frame,
+                            "Bienvenido " + controller.getNombreUsuario()
+                    );
 
-                frame.dispose();
+                    frame.dispose();
 
-                new VentanaMenu(controller).mostrarVentana();
+                    new VentanaMenu(controller).mostrarVentana();
+
+                } catch (IllegalStateException e) {
+
+                    JOptionPane.showMessageDialog(
+                            frame,
+                            e.getMessage()
+                                    + "\nComprueba los archivos de saldo e historial.",
+                            "Error al cargar los datos",
+                            JOptionPane.ERROR_MESSAGE
+                    );
+                }
+
                 return;
             }
         }

@@ -125,6 +125,18 @@ public class VentanaPerfil {
                     frame,
                     "Debe ingresar un número válido"
             );
+        } catch (IllegalStateException e) {
+
+            actualizarDatos();
+
+            JOptionPane.showMessageDialog(
+                    frame,
+                    e.getMessage()
+                            + "\nEl saldo se actualizó en esta sesión."
+                            + "\nNo repitas el depósito sin comprobar el saldo.",
+                    "Error al guardar el saldo",
+                    JOptionPane.ERROR_MESSAGE
+            );
         }
     }
 }

@@ -92,6 +92,15 @@ public class Ruleta {
         return resultados.size();
     }
 
+    public void cargarResultados(List<Resultado> historial) {
+
+        resultados.clear();
+
+        if (historial != null) {
+            resultados.addAll(historial);
+        }
+    }
+
     public int calcularTotalApostado() {
 
         int total = 0;

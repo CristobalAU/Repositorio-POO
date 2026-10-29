@@ -75,4 +75,13 @@ public class Usuario {
             historial.add(resultado);
         }
     }
+
+    public void cargarHistorial(List<Resultado> resultados) {
+
+        historial.clear();
+
+        if (resultados != null) {
+            historial.addAll(resultados);
+        }
+    }
 }

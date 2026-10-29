@@ -146,7 +146,22 @@ public class VentanaRuleta {
 
             JOptionPane.showMessageDialog(
                     frame,
+                    e.getMessage(),
+                    "Apuesta inválida",
+                    JOptionPane.WARNING_MESSAGE
+            );
+
+        } catch (IllegalStateException e) {
+
+            actualizarDatos();
+
+            JOptionPane.showMessageDialog(
+                    frame,
                     e.getMessage()
+                            + "\nLa partida ya fue ejecutada."
+                            + "\nRevisa el historial y el saldo antes de apostar.",
+                    "Error al guardar la partida",
+                    JOptionPane.ERROR_MESSAGE
             );
         }
     }

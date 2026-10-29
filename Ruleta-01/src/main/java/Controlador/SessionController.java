@@ -4,6 +4,9 @@ import Modelo.Resultado;
 import Modelo.Ruleta;
 import Modelo.Usuario;
 import Modelo.ApuestaBase;
+import Modelo.PersistenciaHistorial;
+import Modelo.PersistenciaSaldo;
+import java.io.IOException;
 
 public class SessionController {
 
@@ -15,7 +18,32 @@ public class SessionController {
     }
 
     public void iniciarSesion(Usuario usuario) {
-        this.usuarioActual = usuario;
+
+        if (usuario == null) {
+            throw new IllegalArgumentException(
+                    "El usuario no puede ser nulo"
+            );
+        }
+
+        try {
+            usuario.cargarHistorial(
+                    PersistenciaHistorial.cargar(usuario.getUsername())
+            );
+
+            ruleta.cargarResultados(usuario.getHistorial());
+
+            usuario.setSaldo(
+                    PersistenciaSaldo.cargar(usuario.getUsername())
+            );
+
+            this.usuarioActual = usuario;
+
+        } catch (IOException | IllegalArgumentException e) {
+            throw new IllegalStateException(
+                    "No se pudieron cargar los datos del usuario",
+                    e
+            );
+        }
     }
 
     public void cerrarSesion() {
@@ -43,11 +71,28 @@ public class SessionController {
     }
 
     public boolean depositar(int monto) {
-        if (usuarioActual == null) {
+
+        if (usuarioActual == null || monto <= 0) {
             return false;
         }
 
-        return usuarioActual.depositar(monto);
+        boolean depositoExitoso = usuarioActual.depositar(monto);
+
+        if (depositoExitoso) {
+            try {
+                PersistenciaSaldo.guardar(
+                        usuarioActual.getUsername(),
+                        usuarioActual.getSaldo()
+                );
+            } catch (IOException e) {
+                throw new IllegalStateException(
+                        "El depósito se realizó, pero no se pudo guardar el saldo.",
+                        e
+                );
+            }
+        }
+
+        return depositoExitoso;
     }
 
     public boolean actualizarNombre(String nombre) {
@@ -82,6 +127,24 @@ public class SessionController {
         usuarioActual.agregarResultado(resultado);
 
         ruleta.agregarResultado(resultado);
+
+        try {
+            PersistenciaHistorial.guardar(
+                    usuarioActual.getUsername(),
+                    usuarioActual.getHistorial()
+            );
+
+            PersistenciaSaldo.guardar(
+                    usuarioActual.getUsername(),
+                    usuarioActual.getSaldo()
+            );
+
+        } catch (IOException e) {
+            throw new IllegalStateException(
+                    "La partida se realizó con éxito, pero no se pudieron guardar los datos.",
+                    e
+            );
+        }
 
         return resultado.getNumero();
     }
