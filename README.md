@@ -1,5 +1,5 @@
-# Repositorio-POO
-Repositorio para POO
+# Evidencia 
+Evidencia para la iteración 07
 
 <img width="1919" height="1199" alt="Evidencia07-Impar" src="https://github.com/user-attachments/assets/419d4330-cb1b-4721-8a43-fc58d44f6483" />
 <img width="1919" height="1199" alt="Evidencia07-Estadisticas finales" src="https://github.com/user-attachments/assets/21c30e66-03e8-42b0-a4a3-2c031ba3dcd8" />
